@@ -1,12 +1,9 @@
-# Topic 1: Overview
+# Python Lists Cheat Sheet
 
-## Key Concepts
-- **Concept 1**: Brief description
-- **Concept 2**: Another key idea
-  - Sub-point or example
-
-## Important Code Snippets
+## 1. List Creation
 ```python
-# Example code for a particular concept
-def example():
-    pass
+# Empty List
+empty_list = []
+
+# List with values
+my_list = [1, 2, 3, 4, 5]
