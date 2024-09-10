@@ -11,7 +11,7 @@ my_list = [1, 2, 3, 4, 5]
 
 ## 2. Accessing Elements
 ```python
-Copy code
+
 # Access by index (0-based indexing)
 first = my_list[0]     # 1
 last = my_list[-1]     # 5
@@ -22,7 +22,7 @@ reverse = my_list[::-1]  # [5, 4, 3, 2, 1]
 ```
 ## 3. Modifying Lists
 ```python
-Copy code
+
 # Changing element value
 my_list[2] = 10        # [1, 2, 10, 4, 5]
 
@@ -37,7 +37,7 @@ my_list.extend([7, 8]) # [1, 100, 2, 10, 4, 5, 6, 7, 8]
 ```
 ## 4. Removing Elements
 ```python
-Copy code
+
 # Remove specific value
 my_list.remove(100)    # [1, 2, 10, 4, 5, 6, 7, 8]
 
@@ -52,7 +52,7 @@ my_list.clear()        # []
 ```
 ## 5. List Operations
 ```python
-Copy code
+C
 # Length of the list
 len(my_list)           # 6
 
