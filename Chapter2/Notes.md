@@ -9,7 +9,7 @@ empty_list = []
 my_list = [1, 2, 3, 4, 5]
 ```
 
-# 2. Accessing Elements
+## 2. Accessing Elements
 ```python
 Copy code
 # Access by index (0-based indexing)
@@ -20,7 +20,7 @@ last = my_list[-1]     # 5
 subset = my_list[1:4]  # [2, 3, 4]
 reverse = my_list[::-1]  # [5, 4, 3, 2, 1]
 ```
-#3. Modifying Lists
+## 3. Modifying Lists
 ```python
 Copy code
 # Changing element value
@@ -35,7 +35,7 @@ my_list.insert(1, 100) # [1, 100, 2, 10, 4, 5, 6]
 # Extending with another list
 my_list.extend([7, 8]) # [1, 100, 2, 10, 4, 5, 6, 7, 8]
 ```
-#4. Removing Elements
+## 4. Removing Elements
 ```python
 Copy code
 # Remove specific value
@@ -50,8 +50,8 @@ my_list.pop()          # [1, 2, 4, 5, 6, 7]
 # Clear all elements
 my_list.clear()        # []
 ```
-#5. List Operations
-python
+## 5. List Operations
+```python
 Copy code
 # Length of the list
 len(my_list)           # 6
