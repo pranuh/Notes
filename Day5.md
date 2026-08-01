@@ -30,6 +30,7 @@ Why?
 This concept is called **Database Normalization**.
 
 To get meaningful information, SQL combines tables using **JOINS**.
+<img width="1080" height="1471" alt="17855564752652828239203417198912" src="https://github.com/user-attachments/assets/a04ce66f-592b-4e2a-8c3c-2f4c343e2f1d" />
 
 ---
 
@@ -78,6 +79,7 @@ Tracks loyalty program members.
 | B | 2021-01-09 |
 
 ---
+<img width="715" height="347" alt="17855564378987817142688836371426" src="https://github.com/user-attachments/assets/77d4dc29-b728-4c90-823e-865c1aa32bdd" />
 
 # Why Multiple Tables?
 
