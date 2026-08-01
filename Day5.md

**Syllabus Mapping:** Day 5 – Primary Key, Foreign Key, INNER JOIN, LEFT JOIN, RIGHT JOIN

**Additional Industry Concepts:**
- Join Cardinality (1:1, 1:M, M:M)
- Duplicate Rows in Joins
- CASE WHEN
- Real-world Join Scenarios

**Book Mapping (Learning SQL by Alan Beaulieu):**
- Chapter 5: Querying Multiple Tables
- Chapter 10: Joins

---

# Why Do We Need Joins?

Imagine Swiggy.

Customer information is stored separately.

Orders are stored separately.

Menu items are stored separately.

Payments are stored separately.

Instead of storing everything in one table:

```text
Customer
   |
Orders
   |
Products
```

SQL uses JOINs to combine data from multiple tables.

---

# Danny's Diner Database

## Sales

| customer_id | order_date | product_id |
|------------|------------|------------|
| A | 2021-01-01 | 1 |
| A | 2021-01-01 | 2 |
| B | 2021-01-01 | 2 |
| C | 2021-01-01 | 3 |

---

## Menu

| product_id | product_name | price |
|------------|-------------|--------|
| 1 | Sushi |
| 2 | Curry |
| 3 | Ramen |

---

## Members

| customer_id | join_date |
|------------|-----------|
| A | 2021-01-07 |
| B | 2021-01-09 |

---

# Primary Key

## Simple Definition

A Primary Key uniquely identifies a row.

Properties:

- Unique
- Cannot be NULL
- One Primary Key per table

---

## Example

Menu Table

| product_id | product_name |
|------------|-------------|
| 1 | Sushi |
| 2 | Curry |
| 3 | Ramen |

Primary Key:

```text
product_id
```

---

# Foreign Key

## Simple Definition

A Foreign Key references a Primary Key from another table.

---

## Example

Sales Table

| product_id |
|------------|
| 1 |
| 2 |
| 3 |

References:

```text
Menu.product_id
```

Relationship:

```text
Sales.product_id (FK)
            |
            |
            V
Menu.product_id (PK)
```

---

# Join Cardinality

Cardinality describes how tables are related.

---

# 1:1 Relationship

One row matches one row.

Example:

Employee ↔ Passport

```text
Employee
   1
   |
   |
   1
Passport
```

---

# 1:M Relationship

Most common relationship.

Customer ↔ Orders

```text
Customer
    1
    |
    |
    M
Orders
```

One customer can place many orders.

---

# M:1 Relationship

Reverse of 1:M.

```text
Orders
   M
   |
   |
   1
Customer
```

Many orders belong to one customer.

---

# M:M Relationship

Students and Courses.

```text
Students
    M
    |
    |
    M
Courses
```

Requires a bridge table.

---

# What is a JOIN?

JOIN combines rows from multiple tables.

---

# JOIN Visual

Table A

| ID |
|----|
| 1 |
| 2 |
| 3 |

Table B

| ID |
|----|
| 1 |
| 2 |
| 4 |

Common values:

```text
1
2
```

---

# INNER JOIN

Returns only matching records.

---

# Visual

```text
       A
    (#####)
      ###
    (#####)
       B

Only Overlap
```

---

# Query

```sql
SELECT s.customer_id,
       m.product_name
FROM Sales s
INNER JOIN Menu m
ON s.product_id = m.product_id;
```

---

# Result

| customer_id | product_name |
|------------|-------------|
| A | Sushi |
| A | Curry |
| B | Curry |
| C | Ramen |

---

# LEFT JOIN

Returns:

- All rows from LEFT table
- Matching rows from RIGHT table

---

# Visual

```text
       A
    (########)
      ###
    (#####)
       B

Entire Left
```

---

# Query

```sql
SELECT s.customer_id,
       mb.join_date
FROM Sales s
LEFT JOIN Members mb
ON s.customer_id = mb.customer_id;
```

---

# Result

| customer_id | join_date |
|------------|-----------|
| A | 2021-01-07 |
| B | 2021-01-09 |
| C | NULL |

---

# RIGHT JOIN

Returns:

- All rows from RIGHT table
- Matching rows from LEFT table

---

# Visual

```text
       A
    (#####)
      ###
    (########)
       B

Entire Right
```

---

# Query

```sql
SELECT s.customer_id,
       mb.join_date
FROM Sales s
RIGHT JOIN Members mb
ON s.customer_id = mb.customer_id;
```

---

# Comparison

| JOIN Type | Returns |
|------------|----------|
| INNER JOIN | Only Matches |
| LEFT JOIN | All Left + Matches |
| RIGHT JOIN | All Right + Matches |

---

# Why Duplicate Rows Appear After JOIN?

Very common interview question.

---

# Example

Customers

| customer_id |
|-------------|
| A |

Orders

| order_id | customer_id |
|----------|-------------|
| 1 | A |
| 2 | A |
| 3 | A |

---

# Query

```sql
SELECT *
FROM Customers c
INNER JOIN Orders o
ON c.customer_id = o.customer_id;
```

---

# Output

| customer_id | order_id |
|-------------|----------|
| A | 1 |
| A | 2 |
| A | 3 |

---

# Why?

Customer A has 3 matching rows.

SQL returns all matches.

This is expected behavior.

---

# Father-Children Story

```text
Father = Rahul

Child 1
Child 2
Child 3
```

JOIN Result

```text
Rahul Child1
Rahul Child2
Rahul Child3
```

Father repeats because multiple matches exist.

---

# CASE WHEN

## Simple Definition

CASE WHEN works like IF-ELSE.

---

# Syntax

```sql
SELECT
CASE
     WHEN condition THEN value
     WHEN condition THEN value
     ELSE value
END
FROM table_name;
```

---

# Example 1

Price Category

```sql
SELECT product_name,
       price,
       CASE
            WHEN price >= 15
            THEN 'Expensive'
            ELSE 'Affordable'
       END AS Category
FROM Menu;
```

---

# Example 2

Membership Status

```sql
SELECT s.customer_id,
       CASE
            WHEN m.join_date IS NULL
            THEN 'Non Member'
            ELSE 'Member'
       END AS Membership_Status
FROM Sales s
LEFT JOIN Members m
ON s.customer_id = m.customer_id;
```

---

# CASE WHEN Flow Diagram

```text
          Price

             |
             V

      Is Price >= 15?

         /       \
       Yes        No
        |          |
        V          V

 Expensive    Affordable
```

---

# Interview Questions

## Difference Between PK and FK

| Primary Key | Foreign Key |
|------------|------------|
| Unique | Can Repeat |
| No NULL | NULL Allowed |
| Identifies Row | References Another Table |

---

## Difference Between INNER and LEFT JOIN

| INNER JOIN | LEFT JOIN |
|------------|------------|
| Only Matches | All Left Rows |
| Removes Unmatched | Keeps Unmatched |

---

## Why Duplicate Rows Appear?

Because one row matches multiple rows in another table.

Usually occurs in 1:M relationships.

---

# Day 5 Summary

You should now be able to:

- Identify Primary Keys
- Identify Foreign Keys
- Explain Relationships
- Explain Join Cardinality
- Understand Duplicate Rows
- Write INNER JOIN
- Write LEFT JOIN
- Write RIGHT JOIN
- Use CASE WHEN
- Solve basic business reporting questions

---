@@ -1,0 +1,761 @@
+# Day 5: Joins Part 1
+
+**Syllabus Mapping:** Day 5 – Primary Key, Foreign Key, INNER JOIN, LEFT JOIN, RIGHT JOIN
+
+---
+
+# Why Do We Need Joins?
+
+Imagine Swiggy.
+
+Customer information is stored separately.
+
+Orders are stored separately.
+
+Menu items are stored separately.
+
+Payments are stored separately.
+
+Instead of storing everything in one table:
+
+```text
+Customer
+   |
+Orders
+   |
+Products
+```
+
+SQL uses JOINs to combine data from multiple tables.
+
+---
+
+# Danny's Diner Database
+
+## Sales
+
+| customer_id | order_date | product_id |
+|------------|------------|------------|
+| A | 2021-01-01 | 1 |
+| A | 2021-01-01 | 2 |
+| B | 2021-01-01 | 2 |
+| C | 2021-01-01 | 3 |
+
+---
+
+## Menu
+
+| product_id | product_name | price |
+|------------|-------------|--------|
+| 1 | Sushi |
+| 2 | Curry |
+| 3 | Ramen |
+
+---
+
+## Members
+
+| customer_id | join_date |
+|------------|-----------|
+| A | 2021-01-07 |
+| B | 2021-01-09 |
+
+---
+
+# Primary Key
+
+## Simple Definition
+
+A Primary Key uniquely identifies a row.
+
+Properties:
+
+- Unique
+- Cannot be NULL
+- One Primary Key per table
+
+---
+
+## Example
+
+Menu Table
+
+| product_id | product_name |
+|------------|-------------|
+| 1 | Sushi |
+| 2 | Curry |
+| 3 | Ramen |
+
+Primary Key:
+
+```text
+product_id
+```
+
+---
+
+# Foreign Key
+
+## Simple Definition
+
+A Foreign Key references a Primary Key from another table.
+
+---
+
+## Example
+
+Sales Table
+
+| product_id |
+|------------|
+| 1 |
+| 2 |
+| 3 |
+
+References:
+
+```text
+Menu.product_id
+```
+
+Relationship:
+
+```text
+Sales.product_id (FK)
+            |
+            |
+            V
+Menu.product_id (PK)
+```
+
+---
+
+# Join Cardinality
+
+Cardinality describes how tables are related.
+
+---
+
+# 1:1 Relationship
+
+One row matches one row.
+
+Example:
+
+Employee ↔ Passport
+
+```text
+Employee
+   1
+   |
+   |
+   1
+Passport
+```
+
+---
+
+# 1:M Relationship
+
+Most common relationship.
+
+Customer ↔ Orders
+
+```text
+Customer
+    1
+    |
+    |
+    M
+Orders
+```
+
+One customer can place many orders.
+
+---
+
+# M:1 Relationship
+
+Reverse of 1:M.
+
+```text
+Orders
+   M
+   |
+   |
+   1
+Customer
+```
+
+Many orders belong to one customer.
+
+---
+
+# M:M Relationship
+
+Students and Courses.
+
+```text
+Students
+    M
+    |
+    |
+    M
+Courses
+```
+
+Requires a bridge table.
+
+---
+
+# What is a JOIN?
+
+JOIN combines rows from multiple tables.
+
+---
+
+# JOIN Visual
+
+Table A
+
+| ID |
+|----|
+| 1 |
+| 2 |
+| 3 |
+
+Table B
+
+| ID |
+|----|
+| 1 |
+| 2 |
+| 4 |
+
+Common values:
+
+```text
+1
+2
+```
+
+---
+
+# INNER JOIN
+
+Returns only matching records.
+
+---
+
+# Visual
+
+```text
+       A
+    (#####)
+      ###
+    (#####)
+       B
+
+Only Overlap
+```
+
+---
+
+# Query
+
+```sql
+SELECT s.customer_id,
+       m.product_name
+FROM Sales s
+INNER JOIN Menu m
+ON s.product_id = m.product_id;
+```
+
+---
+
+# Result
+
+| customer_id | product_name |
+|------------|-------------|
+| A | Sushi |
+| A | Curry |
+| B | Curry |
+| C | Ramen |
+
+---
+
+# LEFT JOIN
+
+Returns:
+
+- All rows from LEFT table
+- Matching rows from RIGHT table
+
+---
+
+# Visual
+
+```text
+       A
+    (########)
+      ###
+    (#####)
+       B
+
+Entire Left
+```
+
+---
+
+# Query
+
+```sql
+SELECT s.customer_id,
+       mb.join_date
+FROM Sales s
+LEFT JOIN Members mb
+ON s.customer_id = mb.customer_id;
+```
+
+---
+
+# Result
+
+| customer_id | join_date |
+|------------|-----------|
+| A | 2021-01-07 |
+| B | 2021-01-09 |
+| C | NULL |
+
+---
+
+# RIGHT JOIN
+
+Returns:
+
+- All rows from RIGHT table
+- Matching rows from LEFT table
+
+---
+
+# Visual
+
+```text
+       A
+    (#####)
+      ###
+    (########)
+       B
+
+Entire Right
+```
+
+---
+
+# Query
+
+```sql
+SELECT s.customer_id,
+       mb.join_date
+FROM Sales s
+RIGHT JOIN Members mb
+ON s.customer_id = mb.customer_id;
+```
+
+---
+
+# Comparison
+
+| JOIN Type | Returns |
+|------------|----------|
+| INNER JOIN | Only Matches |
+| LEFT JOIN | All Left + Matches |
+| RIGHT JOIN | All Right + Matches |
+
+---
+
+# Why Duplicate Rows Appear After JOIN?
+
+Very common interview question.
+
+---
+
+# Example
+
+Customers
+
+| customer_id |
+|-------------|
+| A |
+
+Orders
+
+| order_id | customer_id |
+|----------|-------------|
+| 1 | A |
+| 2 | A |
+| 3 | A |
+
+---
+
+# Query
+
+```sql
+SELECT *
+FROM Customers c
+INNER JOIN Orders o
+ON c.customer_id = o.customer_id;
+```
+
+---
+
+# Output
+
+| customer_id | order_id |
+|-------------|----------|
+| A | 1 |
+| A | 2 |
+| A | 3 |
+
+---
+
+# Why?
+
+Customer A has 3 matching rows.
+
+SQL returns all matches.
+
+This is expected behavior.
+
+---
+
+# Father-Children Story
+
+```text
+Father = Rahul
+
+Child 1
+Child 2
+Child 3
+```
+
+JOIN Result
+
+```text
+Rahul Child1
+Rahul Child2
+Rahul Child3
+```
+
+Father repeats because multiple matches exist.
+
+---
+
+# CASE WHEN
+
+## Simple Definition
+
+CASE WHEN works like IF-ELSE.
+
+---
+
+# Syntax
+
+```sql
+SELECT
+CASE
+     WHEN condition THEN value
+     WHEN condition THEN value
+     ELSE value
+END
+FROM table_name;
+```
+
+---
+
+# Example 1
+
+Price Category
+
+```sql
+SELECT product_name,
+       price,
+       CASE
+            WHEN price >= 15
+            THEN 'Expensive'
+            ELSE 'Affordable'
+       END AS Category
+FROM Menu;
+```
+
+---
+
+# Example 2
+
+Membership Status
+
+```sql
+SELECT s.customer_id,
+       CASE
+            WHEN m.join_date IS NULL
+            THEN 'Non Member'
+            ELSE 'Member'
+       END AS Membership_Status
+FROM Sales s
+LEFT JOIN Members m
+ON s.customer_id = m.customer_id;
+```
+
+---
+
+# CASE WHEN Flow Diagram
+
+```text
+          Price
+
+             |
+             V
+
+      Is Price >= 15?
+
+         /       \
+       Yes        No
+        |          |
+        V          V
+
+ Expensive    Affordable
+```
+
+---
+
+# Interview Questions
+
+## Difference Between PK and FK
+
+| Primary Key | Foreign Key |
+|------------|------------|
+| Unique | Can Repeat |
+| No NULL | NULL Allowed |
+| Identifies Row | References Another Table |
+
+---
+
+## Difference Between INNER and LEFT JOIN
+
+| INNER JOIN | LEFT JOIN |
+|------------|------------|
+| Only Matches | All Left Rows |
+| Removes Unmatched | Keeps Unmatched |
+
+---
+
+## Why Duplicate Rows Appear?
+
+Because one row matches multiple rows in another table.
+
+Usually occurs in 1:M relationships.
+
+---
+# Part 2 – Practice Workbook
+
+## Section D – Short Answer Questions
+
+1. What is a Primary Key?
+
+2. What is a Foreign Key?
+
+3. What is a JOIN?
+
+4. Why do databases use multiple tables?
+
+5. What is the purpose of INNER JOIN?
+
+6. What is the purpose of LEFT JOIN?
+
+7. What is the purpose of RIGHT JOIN?
+
+8. What is Join Cardinality?
+
+9. What is a One-to-Many relationship?
+
+10. Why do duplicate rows appear after a JOIN?
+
+11. What is the difference between Primary Key and Foreign Key?
+
+12. What is the difference between INNER JOIN and LEFT JOIN?
+
+13. Can a Foreign Key contain duplicate values?
+
+14. Can a Primary Key contain NULL values?
+
+15. What is the purpose of table aliases in JOINs?
+
+---
+
+## Section F – Write SQL Queries
+
+### Basic JOIN Queries
+
+1. Display customer_id and product_name.
+
+2. Display customer_id, product_name and price.
+
+3. Display all sales records with menu information.
+
+4. Display all customers and membership dates.
+
+5. Display customers who are members.
+
+6. Display customer purchases and product prices.
+
+7. Display all products purchased by Customer A.
+
+8. Display all purchases made by Customer B.
+
+9. Display all customers including non-members.
+
+10. Display membership details of all customers.
+
+---
+
+### Intermediate JOIN Queries
+
+11. Display customer_id and total amount spent.
+
+12. Find total sales amount for each customer.
+
+13. Find total orders placed by each customer.
+
+14. Find average order value by customer.
+
+15. Find highest priced product ordered by each customer.
+
+16. Display product-wise sales count.
+
+17. Display total revenue generated by each product.
+
+18. Find the most frequently ordered product.
+
+19. Find customers who purchased Curry.
+
+20. Find customers who purchased Sushi.
+
+---
+
+### LEFT JOIN Practice
+
+21. Display all customers and their membership status.
+
+22. Display customers who are not members.
+
+23. Display customers and join dates.
+
+24. Display customers even if they never joined membership.
+
+25. Display member and non-member counts.
+
+---
+
+### RIGHT JOIN Practice
+
+26. Display all membership records and customer purchases.
+
+27. Display all members whether they purchased or not.
+
+28. Display membership details with customer orders.
+
+29. Display member IDs and purchase history.
+
+30. Display customers who joined the program.
+
+---
+
+### Cardinality & Duplicate Rows
+
+31. Count total orders placed by each customer.
+
+32. Show how many products each customer purchased.
+
+33. Display customer-product combinations.
+
+34. Find customers who ordered multiple products.
+
+35. Find products purchased by multiple customers.
+
+36. Display customers and number of purchases.
+
+37. Explain why Customer A appears multiple times after joining Sales and Menu.
+
+38. Find duplicate customer-product combinations.
+
+39. Count purchases by product.
+
+40. Find products purchased more than once.
+
+---
+
+## Section G – Find the Error (Debug SQL)
+
+### 1
+
+```sql
+SELECT *
+FROM Sales
+JOIN Menu;
+```
+
+### 2
+
+```sql
+SELECT *
+FROM Sales s
+INNER JOIN Menu m
+s.product_id = m.product_id;
+```
+
+### 3
+
+```sql
+SELECT *
+FROM Sales
+LEFT Menu
+ON Sales.product_id = Menu.product_id;
+```
+
+### 4
+
+```sql
+SELECT customer_id,
+       product_name
+FROM Sales
+INNER JOIN Menu
+ON product_id = product_id;
+```
+
+### 5
+
+```sql
+SELECT *
+FROM Sales
+RIGHT JOIN Members;
+```
+
+### 6
+
+```sql
+SELECT *
+FROM Sales s
+INNER JOIN Menu m
+ON s.product_id = product_name;
+```
+
+### 7
+
+```sql
+SELECT customer_id,
+       SUM(price)
+FROM Sales s
+INNER JOIN Menu m
+ON s.product_id = m.product_id;
+```
+
