@@ -1,6 +1,4 @@
-# Day 5: Joins Part 1
-
-**Day 5 – Primary Key, Foreign Key, INNER JOIN, LEFT JOIN, RIGHT JOIN
+# Primary Key, Foreign Key, INNER JOIN, LEFT JOIN, RIGHT JOIN
 
 ---
 
