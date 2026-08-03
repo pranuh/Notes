@@ -1,6 +1,5 @@
-# Day 4: Functions and Grouping
 
-** Day 4 – Single Row Functions, Aggregate Functions, COUNT, SUM, AVG, MIN, MAX, GROUP BY, HAVING
+** Single Row Functions, Aggregate Functions, COUNT, SUM, AVG, MIN, MAX, GROUP BY, HAVING
 
 ---
 
@@ -792,4 +791,3 @@ WHERE COUNT(*) > 10;
 
 ---
 
-# End of Day 4 Notes and Workbook
