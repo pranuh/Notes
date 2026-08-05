@@ -55,11 +55,7 @@ CREATE TABLE Memberships (
 CREATE TABLE Employees (
     Employee_ID INT PRIMARY KEY,
     Employee_Name VARCHAR(50) NOT NULL,
-    Manager_ID INT,
-
-    CONSTRAINT FK_Employee_Manager
-    FOREIGN KEY (Manager_ID)
-    REFERENCES Employees(Employee_ID)
+    Manager_ID INT
 );
 ```
 
