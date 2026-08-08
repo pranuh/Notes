@@ -131,40 +131,6 @@ WHERE team_name IN
 
 ---
 
-## Example 2
-
-Find bowlers from teams having more than 16 points.
-
-```sql
-SELECT bowler
-FROM bowling_stats
-WHERE team IN
-(
-    SELECT team
-    FROM points_table
-    WHERE points > 16
-);
-```
-
----
-
-## Example 3
-
-Find batsmen from teams with positive NRR.
-
-```sql
-SELECT batsman
-FROM batting_stats
-WHERE team IN
-(
-    SELECT team
-    FROM points_table
-    WHERE nrr > 0
-);
-```
-
----
-
 ## Important Points
 
 - Used with multiple values
@@ -189,7 +155,7 @@ Otherwise → FALSE
 
 Management asks
 
-"Show teams that have at least one batsman scoring above 600 runs."
+"Show teams that have at least one batsman scoring above 200 runs."
 
 We only need to know whether such a player exists.
 
@@ -212,7 +178,8 @@ WHERE EXISTS
 
 ## Example 1
 
-Find teams having at least one batsman with 600+ runs.
+"Show teams with foreign players."
+
 
 ```sql
 SELECT team
@@ -220,29 +187,11 @@ FROM points_table p
 WHERE EXISTS
 (
     SELECT *
-    FROM batting_stats b
-    WHERE b.team = p.team
-    AND runs > 600
+    FROM squads s
+    WHERE s.team_name = p.team
+    AND nationality <> 'India'
 );
-```
-
----
-
-## Example 2
-
-Find teams having bowlers with more than 20 wickets.
-
-```sql
-SELECT team
-FROM points_table p
-WHERE EXISTS
-(
-    SELECT *
-    FROM bowling_stats b
-    WHERE b.team = p.team
-    AND wickets > 20
-);
-```
+``` 
 
 ---
 
